@@ -10,44 +10,87 @@
 </head>
 <body>
     <div class="container px-4 mx-auto bg-gray-50">
-        <p class="text-lg">Home page</p>
-        <div class="flex gap-3 items-center">
-            <div>Your VPCs</div>
-            <button class="btn-sid">Create Env</button>
-            <i class="fas fa-sync-alt"></i>
-        </div>
-        <!-- VPC table -->
-        <table class="table-fixed ">
-            <thead>
-              <tr>
-                <th class="w-2/5 ...">Name</th>
-                <th class="w-2/5 ...">ID</th>
-                <th class="w-1/5 ...">CIDR</th>
-              </tr>
-            </thead>
-            <tbody>
-            
-                <% if(data.length>0) { %>
-                        <% data.forEach(item=>{ %>
-                            <tr class="bg-green-50">
-                                <td><%= item.name %> </td>
-                                <td><%= item.id %> </td>
-                                <td><%= item.cidr %> </td>
-                            </tr>    
-                        <% }) %> 
-                <% } else if(error) {  %>
-                    <tr class="bg-red-50">
-                        <td >Error: <%=error %> </td>
-                    </tr>
-                <% } else{ %>
-                    
-                    <tr class="bg-blue-50">
-                        <td >No VPCs</td>
-                    </tr>
-                <% } %> 
-            
-            </tbody>
-        </table>
+        <section class="py-4">
+        
+            <div class="flex gap-3 items-center">
+                <div>Your VPCs</div>
+                <button class="btn-sid">Create Env</button>
+                <i class="fas fa-sync-alt"></i>
+            </div>
+            <!-- VPC table -->
+            <table class="table-fixed ">
+                <thead>
+                <tr>
+                    <th class="w-2/5 ...">Name</th>
+                    <th class="w-2/5 ...">ID</th>
+                    <th class="w-1/5 ...">CIDR</th>
+                </tr>
+                </thead>
+                <tbody>
+                
+                    <% if(vpc.data.length>0) { %>
+                            <% vpc.data.forEach(item=>{ %>
+                                <tr class="bg-green-50">
+                                    <td><%= item.name %> </td>
+                                    <td><%= item.id %> </td>
+                                    <td><%= item.cidr %> </td>
+                                </tr>    
+                            <% }) %> 
+                    <% } else if(vpc.error) {  %>
+                        <tr class="bg-red-50">
+                            <td >Error: <%=vpc.error %> </td>
+                        </tr>
+                    <% } else{ %>
+                        
+                        <tr class="bg-blue-50">
+                            <td >No VPCs</td>
+                        </tr>
+                    <% } %> 
+                
+                </tbody>
+            </table>
+        </section>
+        <section class="my-10">
+            <div class="flex gap-3 items-center">
+                <div>Your Instances</div>
+                <button class="btn-sid">Create Instance</button>
+                <i class="fas fa-sync-alt"></i>
+            </div>
+            <!-- Instance table -->
+            <table class="table-fixed ">
+                <thead>
+                <tr>
+                    <th class="w-1/5 ...">Name</th>
+                    <th class="w-2/5 ...">ID</th>
+                    <th class="w-1/5 ...">State</th>
+                    <th class="w-1/5 ...">Key Name</th>
+                </tr>
+                </thead>
+                <tbody>
+                
+                    <% if(instances.data.length>0) { %>
+                            <% instances.data.forEach(item=>{ %>
+                                <tr class="bg-green-50">
+                                    <td><%= item.name %> </td>
+                                    <td><%= item.id %> </td>
+                                    <td><%= item.state %> </td>
+                                    <td><%= item.keyName %> </td>
+                                </tr>    
+                            <% }) %> 
+                    <% } else if(instances.error) {  %>
+                        <tr class="bg-red-50">
+                            <td >Error: <%=instances.error %> </td>
+                        </tr>
+                    <% } else{ %>
+                        
+                        <tr class="bg-blue-50">
+                            <td >No Instances</td>
+                        </tr>
+                    <% } %> 
+                
+                </tbody>
+            </table>
+        </section>
     </div>
     
 </body>
