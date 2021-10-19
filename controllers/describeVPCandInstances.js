@@ -69,11 +69,13 @@ const getVPCs = async () => {
 const getInstances = async () => {
   try {
     const response = await ec2Client.send(new DescribeInstancesCommand({}));
-    //console.log(typeof response, JSON.stringify(response));
-    //console.log(response);
-    const instances = response.Reservations.Instances;
-    const reservations = response.Reservations[0];
-    console.log(reservations);
+    const reservations = response.Reservations;
+    let instances = [];
+    reservations.forEach((reservation) => {
+      reservation.Instances.forEach((instance) => {
+        instances.push(instance);
+      });
+    });
     const data = instances.map((instance) => {
       const instanceName = instance.Tags?.[0].Value || "-";
       return {
@@ -83,8 +85,15 @@ const getInstances = async () => {
         keyName: instance.KeyName,
       };
     });
-
-    return { data };
+    const dummyData = [
+      {
+        name: "demoEC2",
+        id: "i-0e8a1e9177b70ebea",
+        state: "stopped",
+        keyName: "siddhant-linux",
+      },
+    ];
+    return { data: dummyData };
   } catch (err) {
     console.log("Oh no!!!.. Error from instances %j");
     return { data: [], error: err.message };

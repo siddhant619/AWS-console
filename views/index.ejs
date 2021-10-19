@@ -16,6 +16,7 @@
                 <div>Your VPCs</div>
                 <button class="btn-sid">Create Env</button>
                 <i class="fas fa-sync-alt"></i>
+                <div id="error-message-env"></div>
             </div>
             <!-- VPC table -->
             <table class="table-fixed ">
@@ -55,6 +56,7 @@
                 <div>Your Instances</div>
                 <button class="btn-sid">Create Instance</button>
                 <i class="fas fa-sync-alt"></i>
+                <div id="error-message-instance"></div>
             </div>
             <!-- Instance table -->
             <table class="table-fixed ">
@@ -73,7 +75,16 @@
                                 <tr class="bg-green-50">
                                     <td><%= item.name %> </td>
                                     <td><%= item.id %> </td>
-                                    <td><%= item.state %> </td>
+                                    <td id="<%=item.id %>" onClick="changeState('<%=item.id %>','<%=item.state %>')" class="instance-state border border-1 flex justify-around items-center cursor-pointer">
+                                        <% if(item.state==="pending") { %>
+                                            <i class="fas text-yellow-600 fa-clock-circle"></i> 
+                                        <% }else if(item.state==="running"){ %>
+                                            <i class="fas text-green-600 fa-check-circle"></i>
+                                        <% }else{ %>
+                                            <i class="fas text-red-600 fa-minus-circle"></i>
+                                        <% } %> 
+                                        <%= item.state %> 
+                                    </td>
                                     <td><%= item.keyName %> </td>
                                 </tr>    
                             <% }) %> 
@@ -92,6 +103,27 @@
             </table>
         </section>
     </div>
-    
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script type="text/javascript">
+        const message= document.getElementById('error-message-instance')
+        const changeState= async (id,state)=>{
+            if(state.toUpperCase()==="PENDING" || state.toUpperCase()==="TERMINATED") return;
+            const element=document.getElementById(id);
+            let newState;
+            element.innerHTML= '<i class="fas text-yellow-500 fa-clock"></i>Pending'
+            newState=state==="stopped"?'start':'stop';
+            try{
+                console.log('in try')
+                const response= await axios.post('/startStopInstance', {state:newState,id});
+                console.log(response);
+            }
+            catch(e){
+                console.log(e);
+                message.innerHTML='Some error occured!';
+            }
+
+        }
+    </script>
+
 </body>
 </html>

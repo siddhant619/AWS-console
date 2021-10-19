@@ -1,6 +1,8 @@
 const express = require("express");
 const fs = require("fs");
 const describeVPCandInstances = require("./routes/describeVPCandInstances");
+const startStopInstance = require("./routes/startStopInstance");
+const createInstance = require("./routes/createInstance");
 const app = express();
 app.set("view engine", "ejs");
 app.use(express.static(__dirname + "/views"));
@@ -15,6 +17,8 @@ const s3Client = new S3.S3Client({
 console.log(s3Client) */
 
 app.use("/", describeVPCandInstances);
+app.use("/startStopInstance", startStopInstance);
+app.use("/createInstance", createInstance);
 
 app.listen(3000, () => {
   console.log("listening on port 3000...");
