@@ -69,8 +69,11 @@ const getVPCs = async () => {
 const getInstances = async () => {
   try {
     const response = await ec2Client.send(new DescribeInstancesCommand({}));
-    console.log(typeof response, JSON.stringify(response));
+    //console.log(typeof response, JSON.stringify(response));
+    //console.log(response);
     const instances = response.Reservations.Instances;
+    const reservations = response.Reservations[0];
+    console.log(reservations);
     const data = instances.map((instance) => {
       const instanceName = instance.Tags?.[0].Value || "-";
       return {
