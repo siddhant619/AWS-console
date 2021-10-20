@@ -3,6 +3,7 @@ const {
   DescribeInstancesCommand,
 } = require("@aws-sdk/client-ec2");
 const { ec2Client } = require("../libs/ec2Client");
+const axios = require("axios");
 
 const getVPCs = async () => {
   const params = {};

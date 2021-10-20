@@ -1,80 +1,143 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-    <link rel="stylesheet" href="styles/style.css">
-</head>
-<body>
-    <div class="container px-4 mx-auto bg-gray-50">
-    <h1 class="text-lg">Create instance</h1>
+    <link rel="stylesheet" href="styles/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css"
+    />
+  </head>
+  <body>
+    <div class="container w-50">
+      <h1>Create New EC2 Instance</h1>
 
-    <form class="w-full max-w-lg">
-        <div class="flex flex-wrap -mx-3 mb-6">
-          <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-            <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="instance-name">
-              Instance Name
-            </label>
-            <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="instance-name" type="text" placeholder="DemoEC2">
-            <p class="text-red-500 text-xs italic"></p>
+      <form id="instanceForm">
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <label for="instanceName">Instance Name</label>
+            <input
+              type="text"
+              class="form-control"
+              id="instanceName"
+              placeholder="DemoEC2"
+              required
+            />
           </div>
-          <div class="w-full md:w-1/2 px-3">
-        
-            <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-state">
-                Key-pair
-            </label>
-            <div class="relative">
-                <select class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state">
-                    <option>windows-key</option>
-                    <option>linux-key</option>
-                
-                </select>
-                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
-                </div>
-            </div>
-              
+          <div class="form-group col-md-6">
+            <label for="keyName">KeyName</label>
+            <select class="selectpicker form-control" id="keyName" required>
+              <% if(keyNames.data.length>0) { %> <%
+              keyNames.data.forEach(item=>{ %>
+              <option><%= item %></option>
+              <% }) } %>
+            </select>
           </div>
         </div>
-        <div class=" -mx-3 mb-6">
-            <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-state">
-                Subnet
-            </label>
-            <div class="relative">
-                <select class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state">
-                    <option>subnet-d7j3hg | us-east-1b | vpc-k23oni</option>
-                    <option>subnet-jfewg | us-east-1c | vpc-kvdsni</option>
-                
-                </select>
-                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
-                </div>
-            </div>
+        <div class="form-row">
+          <div class="form-group col-md-12">
+            <label for="subnet">Subnet</label>
+            <select class="selectpicker form-control" id="subnet" required>
+              <% if(subnets.data.length>0) { %> <% subnets.data.forEach(item=>{
+              %>
+              <option value="<%=item.id %>">
+                <%= item.id %> | <%=item.az %> | <%=item.vpcId %>
+              </option>
+              <% }) } %>
+            </select>
+          </div>
         </div>
-        <div class=" -mx-3 mb-2">
-            <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-state">
-                Security Groups
-            </label>
-            <div class="relative">
-                <select class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state" multiple>
-                    <option>sg-030f7ee4756e04dc7 | launch-wizard-3 </option>
-                    <option>sg-030f7ee4756224dc7 | launch-wizard-2 </option>
-                    <option>sg-030f7ee4756e04dc7 | launch-wizard-1 </option>
-                    <option>sg-030f7ee4756224dc7 | launch-wizard-5 </option>
-                    <option>sg-030f7ee4756224dc7 | launch-wizard-5 </option>
-                    <option>sg-030f7ee4756224dc7 | launch-wizard-5 </option>
-                    <option>sg-030f7ee4756224dc7 | launch-wizard-5 </option>
-                
-                </select>
-                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                </div>
-            </div>
-          
-          
+        <div class="form-row">
+          <div class="form-group col-md-12">
+            <label for="securityGroups">Security Group</label>
+            <select
+              class="selectpicker form-control"
+              id="securityGroups"
+              multiple
+              required
+            >
+              <% if(securityGroups.data.length>0) { %> <%
+              securityGroups.data.forEach(item=>{ %>
+              <option value="<%=item.id %>">
+                <%= item.id %> | <%=item.description %> %>
+              </option>
+              <% }) } %>
+            </select>
+          </div>
         </div>
+        <button type="submit" class="btn btn-primary">Create Instance</button>
+        <div id="error-message"></div>
       </form>
     </div>
-</body>
+
+    <!-- Bootstrap CDN -->
+    <script
+      src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+      integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+      integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+      integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+      crossorigin="anonymous"
+    ></script>
+    <!-- bootstrap-select CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script>
+      const form = document.querySelector("#instanceForm");
+      const message = document.getElementById("error-message");
+
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const instanceName = document.querySelector("#instanceName").value;
+        const keyName = document.querySelector("#keyName").value;
+        const subnet = document.querySelector("#subnet").value;
+        const securityGroupsOptions =
+          document.querySelector("#securityGroups")?.options;
+        const selectedSecurityGroups = [];
+        Array.from(securityGroupsOptions).forEach((option) => {
+          if (option.selected) {
+            selectedSecurityGroups.push(option.value);
+          }
+        });
+
+        try {
+          const response = await axios.post("/createInstance", {
+            instanceName,
+            keyName,
+            subnet,
+            selectedSecurityGroups,
+          });
+          console.log("response is! ", response);
+          if (response.data.errorMessage) {
+            console.log("in error", response.data.errorMessage);
+            message.innerHTML = `<p class="text-danger">
+              response.errorMessage + " " + response.errorType</p>`;
+          } else {
+            message.innerHTML = `<p class="text-success">Instance created with ID- ${response.data.instanceId}</p>`;
+            instanceName.value = "";
+          }
+        } catch (e) {
+          console.log("Some error!", e);
+          message.innerHTML = `<p class="text-danger">Some error occured!</p>`;
+        }
+        console.log(instanceName, keyName, subnet, selectedSecurityGroups);
+      });
+    </script>
+  </body>
 </html>
