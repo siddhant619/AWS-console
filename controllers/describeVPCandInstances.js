@@ -8,7 +8,7 @@ const axios = require("axios");
 const getVPCs = async () => {
   const params = {};
   try {
-    const response = await ec2Client.send(new DescribeVpcsCommand(params));
+    //const response = await ec2Client.send(new DescribeVpcsCommand(params));
     const defaultResponse = {
       Vpcs: [
         {
@@ -94,7 +94,7 @@ const getInstances = async () => {
         keyName: "siddhant-linux",
       },
     ];
-    return { data: dummyData };
+    return { data };
   } catch (err) {
     console.log("Oh no!!!.. Error from instances %j");
     return { data: [], error: err.message };

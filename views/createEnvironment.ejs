@@ -31,62 +31,73 @@
   <body>
     <%- include('./partials/sidebar.ejs') %>
     <div class="container w-50">
-      <h1>Create New EC2 Instance</h1>
+      <h1>Create New Environment</h1>
 
-      <form id="instanceForm">
+      <form id="environmentForm">
         <div class="form-row">
           <div class="form-group col-md-6">
-            <label for="instanceName">Instance Name</label>
+            <label for="stackName">Stack Name</label>
             <input
               type="text"
               class="form-control"
-              id="instanceName"
-              placeholder="DemoEC2"
+              id="stackName"
+              placeholder="Cloudformation stack name"
+              value="setupEnv"
               required
             />
           </div>
           <div class="form-group col-md-6">
-            <label for="keyName">KeyName</label>
-            <select class="selectpicker form-control" id="keyName" required>
-              <% if(keyNames.data.length>0) { %> <%
-              keyNames.data.forEach(item=>{ %>
-              <option><%= item %></option>
-              <% }) } %>
-            </select>
-          </div>
-        </div>
-        <div class="form-row">
-          <div class="form-group col-md-12">
-            <label for="subnet">Subnet</label>
-            <select class="selectpicker form-control" id="subnet" required>
-              <% if(subnets.data.length>0) { %> <% subnets.data.forEach(item=>{
-              %>
-              <option value="<%=item.id %>">
-                <%= item.id %> | <%=item.az %> | <%=item.vpcId %>
-              </option>
-              <% }) } %>
-            </select>
-          </div>
-        </div>
-        <div class="form-row">
-          <div class="form-group col-md-12">
-            <label for="securityGroups">Security Group</label>
-            <select
-              class="selectpicker form-control"
-              id="securityGroups"
-              multiple
+            <label for="vpcName">VPC Name</label>
+            <input
+              type="text"
+              class="form-control"
+              id="vpcName"
+              placeholder="VPC name"
+              value="demovpc"
               required
-            >
-              <% if(securityGroups.data.length>0) { %> <%
-              securityGroups.data.forEach(item=>{ %>
-              <option value="<%=item.id %>">
-                <%= item.id %> | <%=item.description %> %>
-              </option>
-              <% }) } %>
-            </select>
+            />
           </div>
         </div>
-        <button type="submit" class="btn btn-primary">Create Instance</button>
+        <div class="form-row">
+          <div class="form-group col-md-8">
+            <label for="vpcCIDR">VPC CIDR block</label>
+            <input
+              type="text"
+              class="form-control"
+              id="vpcCIDR"
+              placeholder="10.0.0.0/16"
+              value="10.0.0.0/16"
+              required
+            />
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <label for="publicSubnetCIDR">Public subnet CIDR</label>
+            <input
+              type="text"
+              class="form-control"
+              id="publicSubnetCIDR"
+              placeholder="10.0.0.0/24"
+              value="10.0.0.0/24"
+              required
+            />
+          </div>
+          <div class="form-group col-md-6">
+            <label for="privateSubnetCIDR">Private subnet CIDR</label>
+            <input
+              type="text"
+              class="form-control"
+              id="privateSubnetCIDR"
+              placeholder="10.0.0.0/24"
+              value="10.0.0.0/24"
+              required
+            />
+          </div>
+        </div>
+        <button type="submit" class="btn btn-primary">
+          Create Environment
+        </button>
         <div id="error-message"></div>
       </form>
     </div>
@@ -111,44 +122,39 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script>
-      const form = document.querySelector("#instanceForm");
+      const form = document.querySelector("#environmentForm");
       const message = document.getElementById("error-message");
 
       form.addEventListener("submit", async (e) => {
         e.preventDefault();
-        const instanceName = document.querySelector("#instanceName").value;
-        const keyName = document.querySelector("#keyName").value;
-        const subnet = document.querySelector("#subnet").value;
-        const securityGroupsOptions =
-          document.querySelector("#securityGroups")?.options;
-        const selectedSecurityGroups = [];
-        Array.from(securityGroupsOptions).forEach((option) => {
-          if (option.selected) {
-            selectedSecurityGroups.push(option.value);
-          }
-        });
-
+        const stackName = document.querySelector("#stackName").value;
+        const vpcName = document.querySelector("#vpcName").value;
+        const vpcCIDR = document.querySelector("#vpcCIDR").value;
+        const publicSubnetCIDR =
+          document.querySelector("#publicSubnetCIDR").value;
+        const privateSubnetCIDR =
+          document.querySelector("#privateSubnetCIDR").value;
         try {
-          const response = await axios.post("/createInstance", {
-            instanceName,
-            keyName,
-            subnet,
-            selectedSecurityGroups,
+          const response = await axios.post("/createEnvironment", {
+            stackName,
+            vpcName,
+            vpcCIDR,
+            publicSubnetCIDR,
+            privateSubnetCIDR,
           });
           console.log("response is! ", response);
-          if (response.data.errorMessage) {
-            console.log("in error", response.data.errorMessage);
+          if (response.data.statusCode != 200) {
+            console.log("Error: ", response.data.body);
             message.innerHTML = `<p class="text-danger">
-              response.errorMessage + " " + response.errorType</p>`;
+              ${response.data.body}  </p>`;
           } else {
-            message.innerHTML = `<p class="text-success">Instance created with ID- ${response.data.instanceId}</p>`;
-            instanceName.value = "";
+            message.innerHTML = `<p class="text-success">Creating environment...</p>`;
+            //instanceName.value = "";
           }
         } catch (e) {
           console.log("Some error!", e);
           message.innerHTML = `<p class="text-danger">Some error occured!</p>`;
         }
-        console.log(instanceName, keyName, subnet, selectedSecurityGroups);
       });
     </script>
   </body>

@@ -3,27 +3,21 @@ const {
   StopInstancesCommand,
 } = require("@aws-sdk/client-ec2");
 const { ec2Client } = require("../libs/ec2Client");
-
+const axios = require("axios");
 const startStopInstance = async (req, res) => {
   console.log(req.body);
-  const params = { InstanceIds: [req.body.id] }; // Array of INSTANCE_IDs
-  if (req.body.state === "start") {
-    try {
-      const data = await ec2Client.send(new StartInstancesCommand(params));
-      console.log("Success", data.StartingInstances);
-      return res.status(200).json({ data });
-    } catch (err) {
-      console.log("Oh no.. if error", err);
-      return res.status(400).json({ data: err });
-    }
-  } else {
-    try {
-      const data = await ec2Client.send(new StopInstancesCommand(params));
-      console.log("Success", data.StoppingInstances);
-      return res.status(200).json({ data });
-    } catch (err) {
-      return res.status(400).json({ data: err });
-    }
+  //const params = { InstanceIds: [req.body.id] }; // Array of INSTANCE_IDs
+  const body = { instanceID: req.body.id, action: req.body.state };
+  try {
+    const response = await axios.post(
+      "https://26rwihrqol.execute-api.us-east-1.amazonaws.com/dev/startstopinstance",
+      body
+    );
+    console.log(response, "start/stop action done");
+    return res.status(200).json(response.data);
+  } catch (e) {
+    console.log(e);
+    return res.status(400).send("Some error occured!");
   }
   //res.send("hello frm startStopInstance" + req.body);
 };
