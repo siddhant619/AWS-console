@@ -53,6 +53,30 @@ const getVPCs = async () => {
           ],
           IsDefault: true,
         },
+        {
+          CidrBlock: "10.0.0.0/24",
+          DhcpOptionsId: "dopt-00c5fd7a",
+          State: "available",
+          VpcId: "vpc-0b3a6af15277cb800",
+          OwnerId: "292242767239",
+          InstanceTenancy: "default",
+          CidrBlockAssociationSet: [
+            {
+              AssociationId: "vpc-cidr-assoc-0e13f4b8f6ac06463",
+              CidrBlock: "10.0.0.0/24",
+              CidrBlockState: {
+                State: "associated",
+              },
+            },
+          ],
+          IsDefault: false,
+          Tags: [
+            {
+              Key: "Name",
+              Value: "demovpc",
+            },
+          ],
+        },
       ],
     };
 
@@ -69,7 +93,7 @@ const getVPCs = async () => {
 
 const getInstances = async () => {
   try {
-    const response = await ec2Client.send(new DescribeInstancesCommand({}));
+    /* const response = await ec2Client.send(new DescribeInstancesCommand({}));
     const reservations = response.Reservations;
     let instances = [];
     reservations.forEach((reservation) => {
@@ -85,7 +109,7 @@ const getInstances = async () => {
         state: instance.State.Name,
         keyName: instance.KeyName,
       };
-    });
+    }); */
     const dummyData = [
       {
         name: "demoEC2",
@@ -93,8 +117,20 @@ const getInstances = async () => {
         state: "stopped",
         keyName: "siddhant-linux",
       },
+      {
+        name: "ec1",
+        id: "i-0e8a1e9177b70ebea",
+        state: "stopped",
+        keyName: "siddhant-linux",
+      },
+      {
+        name: "ec2test",
+        id: "i-0e8a1e9177b70ebea",
+        state: "stopped",
+        keyName: "siddhant-linux",
+      },
     ];
-    return { data };
+    return { data: dummyData };
   } catch (err) {
     console.log("Oh no!!!.. Error from instances %j");
     return { data: [], error: err.message };

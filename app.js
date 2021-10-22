@@ -4,6 +4,7 @@ const describeVPCandInstances = require("./routes/describeVPCandInstances");
 const startStopInstance = require("./routes/startStopInstance");
 const createInstance = require("./routes/createInstance");
 const createEnvironment = require("./routes/createEnvironment");
+const contact = require("./routes/contact");
 const app = express();
 app.set("view engine", "ejs");
 app.use(express.static(__dirname + "/views"));
@@ -21,6 +22,7 @@ app.use("/", describeVPCandInstances);
 app.use("/startStopInstance", startStopInstance);
 app.use("/createInstance", createInstance);
 app.use("/createEnvironment", createEnvironment);
+app.use("/contact", contact);
 app.listen(3000, () => {
   console.log("listening on port 3000...");
 });

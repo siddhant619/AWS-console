@@ -15,113 +15,157 @@
       integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm"
       crossorigin="anonymous"
     />
-    <link rel="stylesheet" href="styles/style.css" />
-    <link rel="stylesheet" href="styles/sidebar.css" />
+    <!-- <link rel="stylesheet" href="styles/style.css" /> -->
+
     <link
       rel="stylesheet"
       href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"
       integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm"
       crossorigin="anonymous"
     />
+    <!-- bootstrap -->
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css"
+    />
+    <link rel="stylesheet" href="styles/sidebar.css" />
   </head>
   <body>
     <%- include('./partials/sidebar.ejs') %>
-    <div class="container px-4 mx-auto bg-gray-50">
-      <section class="py-4">
-        <div class="flex gap-3 items-center">
-          <div>Your VPCs</div>
-          <i class="fas fa-sync-alt"></i>
+    <div class="container" style="margin: 25px auto; padding-left: 60px">
+      <section class="">
+        <div class="">
+          <h4>Your VPCs</h4>
+          <!-- <i class="fas fa-sync-alt"></i> -->
           <div id="error-message-env"></div>
         </div>
         <!-- VPC table -->
-        <table class="table-fixed">
-          <thead>
-            <tr>
-              <th class="w-2/5 ...">Name</th>
-              <th class="w-2/5 ...">ID</th>
-              <th class="w-1/5 ...">CIDR</th>
-            </tr>
-          </thead>
-          <tbody>
-            <% if(vpc.data.length>0) { %> <% vpc.data.forEach(item=>{ %>
-            <tr class="bg-green-50">
-              <td><%= item.name %></td>
-              <td><%= item.id %></td>
-              <td><%= item.cidr %></td>
-            </tr>
-            <% }) %> <% } else if(vpc.error) { %>
-            <tr class="bg-red-50">
-              <td>Error: <%=vpc.error %></td>
-            </tr>
-            <% } else{ %>
+        <div class="table-wrap">
+          <table
+            class="table table-hover table-responsive table-bordered"
+            style="border: none"
+          >
+            <thead class="thead-light">
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">VPC Name</th>
+                <th scope="col">VPC ID</th>
+                <th scope="col">VPC CIDR</th>
+                <th scope="col">Public subnet CIDR</th>
+                <th scope="col">Private subnet CIDR</th>
+                <th scope="col">Delete Env</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% if(vpc.data.length>0) { %> <% vpc.data.forEach(item=>{ %>
+              <tr>
+                <td>1</td>
+                <td><%= item.name %></td>
+                <td><%= item.id %></td>
+                <td><%= item.cidr %></td>
+                <td>10.0.0.0/16</td>
+                <td>10.0.0.1/16</td>
+                <td><i class="fas fa-trash-alt"></i></td>
+              </tr>
+              <% }) %> <% } else if(vpc.error) { %>
+              <tr>
+                <td>Error: <%=vpc.error %></td>
+              </tr>
+              <% } else{ %>
 
-            <tr class="bg-blue-50">
-              <td>No VPCs</td>
-            </tr>
-            <% } %>
-          </tbody>
-        </table>
+              <tr class="bg-blue-50">
+                <td>No VPCs</td>
+              </tr>
+              <% } %>
+            </tbody>
+          </table>
+        </div>
       </section>
-      <section class="my-10">
-        <div class="flex gap-3 items-center">
-          <div>Your Instances</div>
-          <i class="fas fa-sync-alt"></i>
+      <section style="margin-top: 30px">
+        <div class="">
+          <h4>Your Instances</h4>
+          <!-- <i class="fas fa-sync-alt"></i> -->
           <div id="error-message-instance"></div>
         </div>
         <!-- Instance table -->
-        <table class="table-fixed">
-          <thead>
-            <tr>
-              <th class="w-1/5 ...">Name</th>
-              <th class="w-2/5 ...">ID</th>
-              <th class="w-1/5 ...">State</th>
-              <th class="w-1/5 ...">Key Name</th>
-            </tr>
-          </thead>
-          <tbody>
-            <% if(instances.data.length>0) { %> <%
-            instances.data.forEach(item=>{ %>
-            <tr class="bg-green-50">
-              <td><%= item.name %></td>
-              <td><%= item.id %></td>
-              <td
-                id="<%=item.id %>"
-                onClick="changeState('<%=item.id %>','<%=item.state %>')"
-                class="
-                  instance-state
-                  border border-1
-                  flex
-                  justify-around
-                  items-center
-                  cursor-pointer
-                "
-              >
-                <% if(item.state==="pending") { %>
-                <i class="fas text-yellow-600 fa-clock-circle"></i>
-                <% }else if(item.state==="running"){ %>
-                <i class="fas text-green-600 fa-check-circle"></i>
-                <% }else{ %>
-                <i class="fas text-red-600 fa-minus-circle"></i>
-                <% } %> <%= item.state %>
-              </td>
-              <td><%= item.keyName %></td>
-            </tr>
-            <% }) %> <% } else if(instances.error) { %>
-            <tr class="bg-red-50">
-              <td>Error: <%=instances.error %></td>
-            </tr>
-            <% } else{ %>
+        <div class="table-wrap">
+          <table
+            class="table table-hover table-responsive table-bordered"
+            style="border: none"
+          >
+            <thead class="thead-light">
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Name</th>
+                <th scope="col">ID</th>
+                <th scope="col">State</th>
+                <th scope="col">Key Name</th>
+                <th scope="col">Launch Time</th>
+                <th scope="col">Terminate</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% if(instances.data.length>0) { %> <%
+              instances.data.forEach(item=>{ %>
+              <tr class="bg-green-50">
+                <td>1</td>
+                <td><%= item.name %>svsdsdfdfs</td>
+                <td><%= item.id %></td>
+                <td
+                  id="<%=item.id %>"
+                  onClick="changeState('<%=item.id %>','<%=item.state %>')"
+                  class="instance-state"
+                >
+                  <% if(item.state==="pending") { %>
+                  <i class="fas text-yellow-600 fa-clock-circle"></i>
+                  <% }else if(item.state==="running"){ %>
+                  <i class="fas text-green-600 fa-check-circle"></i>
+                  <% }else{ %>
+                  <i class="fas text-red-600 fa-minus-circle"></i>
+                  <% } %> <%= item.state %>
+                </td>
+                <td><%= item.keyName %></td>
+                <td>2021/10/20 14:06 GMT+5:30</td>
+                <td><i class="fas fa-trash-alt"></i></td>
+              </tr>
+              <% }) %> <% } else if(instances.error) { %>
+              <tr class="bg-red-50">
+                <td>Error: <%=instances.error %></td>
+              </tr>
+              <% } else{ %>
 
-            <tr class="bg-blue-50">
-              <td>No Instances</td>
-            </tr>
-            <% } %>
-          </tbody>
-        </table>
+              <tr class="bg-blue-50">
+                <td>No Instances</td>
+              </tr>
+              <% } %>
+            </tbody>
+          </table>
+        </div>
       </section>
     </div>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-
+    <!-- Bootstrap CDN -->
+    <script
+      src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+      integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+      integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+      integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+      crossorigin="anonymous"
+    ></script>
     <script type="text/javascript">
       const message = document.getElementById("error-message-instance");
       const changeState = async (id, state) => {
