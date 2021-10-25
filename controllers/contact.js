@@ -4,6 +4,6 @@ const getContactForm = (req, res) => {
 };
 const sendContactForm = (req, res) => {
   console.log(req.body);
-  res.send("hi frm sendContactForm");
+  res.send("hi from sendContactForm");
 };
 module.exports = { getContactForm, sendContactForm };

@@ -93,7 +93,7 @@ const getVPCs = async () => {
 
 const getInstances = async () => {
   try {
-    /* const response = await ec2Client.send(new DescribeInstancesCommand({}));
+    const response = await ec2Client.send(new DescribeInstancesCommand({}));
     const reservations = response.Reservations;
     let instances = [];
     reservations.forEach((reservation) => {
@@ -108,8 +108,9 @@ const getInstances = async () => {
         id: instance.InstanceId,
         state: instance.State.Name,
         keyName: instance.KeyName,
+        launchTime: instance.LaunchTime,
       };
-    }); */
+    });
     const dummyData = [
       {
         name: "demoEC2",
@@ -130,7 +131,7 @@ const getInstances = async () => {
         keyName: "siddhant-linux",
       },
     ];
-    return { data: dummyData };
+    return { data };
   } catch (err) {
     console.log("Oh no!!!.. Error from instances %j");
     return { data: [], error: err.message };
@@ -140,8 +141,6 @@ const getInstances = async () => {
 const describeVPCandInstances = async (req, res) => {
   const vpc = await getVPCs();
   const instances = await getInstances();
-  //console.log(instances);
-  //res.send("hello fm vpc");
   res.render("index.ejs", { vpc, instances });
 };
 

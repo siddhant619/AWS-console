@@ -1,14 +1,11 @@
-const {
-  StartInstancesCommand,
-  StopInstancesCommand,
-} = require("@aws-sdk/client-ec2");
-const { ec2Client } = require("../libs/ec2Client");
 const axios = require("axios");
-const startStopInstance = async (req, res) => {
-  const body = { instanceID: req.body.id, action: req.body.state };
+
+const terminateInstance = async (req, res) => {
+  console.log(req.body);
+  const body = { instanceID: req.body.id };
   try {
     const { data } = await axios.post(
-      "https://26rwihrqol.execute-api.us-east-1.amazonaws.com/dev/startstopinstance",
+      "https://26rwihrqol.execute-api.us-east-1.amazonaws.com/dev/terminateinstance",
       body
     );
     if (data.success === "true")
@@ -21,4 +18,4 @@ const startStopInstance = async (req, res) => {
       .json({ errorMessage: "Error: " + e.response.data.message });
   }
 };
-module.exports = { startStopInstance };
+module.exports = { terminateInstance };

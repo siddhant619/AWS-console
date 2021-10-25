@@ -63,9 +63,10 @@
               </tr>
             </thead>
             <tbody>
-              <% if(vpc.data.length>0) { %> <% vpc.data.forEach(item=>{ %>
+              <% if(vpc.data.length>0) { %> <% vpc.data.forEach((item,index)=>{
+              %>
               <tr>
-                <td>1</td>
+                <td><%= index+1 %></td>
                 <td><%= item.name %></td>
                 <td><%= item.id %></td>
                 <td><%= item.cidr %></td>
@@ -79,7 +80,7 @@
               </tr>
               <% } else{ %>
 
-              <tr class="bg-blue-50">
+              <tr class="">
                 <td>No VPCs</td>
               </tr>
               <% } %>
@@ -91,7 +92,7 @@
         <div class="">
           <h4>Your Instances</h4>
           <!-- <i class="fas fa-sync-alt"></i> -->
-          <div id="error-message-instance"></div>
+          <div id="error-message-instance" class="text-danger"></div>
         </div>
         <!-- Instance table -->
         <div class="table-wrap">
@@ -111,11 +112,11 @@
               </tr>
             </thead>
             <tbody>
-              <% if(instances.data.length>0) { %> <%
-              instances.data.forEach(item=>{ %>
-              <tr class="bg-green-50">
-                <td>1</td>
-                <td><%= item.name %>svsdsdfdfs</td>
+              <% if(instances.data.length>0) { %> <% instances.data.forEach(
+              (item,index)=>{ %>
+              <tr class="">
+                <td><%= index+1 %></td>
+                <td><%= item.name %></td>
                 <td><%= item.id %></td>
                 <td
                   id="<%=item.id %>"
@@ -123,24 +124,29 @@
                   class="instance-state"
                 >
                   <% if(item.state==="pending") { %>
-                  <i class="fas text-yellow-600 fa-clock-circle"></i>
+                  <i class="fas text-warning fa-clock-circle"></i>
                   <% }else if(item.state==="running"){ %>
-                  <i class="fas text-green-600 fa-check-circle"></i>
+                  <i class="fas text-success fa-check-circle"></i>
                   <% }else{ %>
-                  <i class="fas text-red-600 fa-minus-circle"></i>
+                  <i class="fas text-danger fa-minus-circle"></i>
                   <% } %> <%= item.state %>
                 </td>
                 <td><%= item.keyName %></td>
-                <td>2021/10/20 14:06 GMT+5:30</td>
-                <td><i class="fas fa-trash-alt"></i></td>
+                <td><%= String(item.launchTime).substring(0,24) %></td>
+                <td>
+                  <i
+                    onClick="terminateInstance('<%=item.id %>')"
+                    class="fas fa-trash-alt"
+                  ></i>
+                </td>
               </tr>
               <% }) %> <% } else if(instances.error) { %>
-              <tr class="bg-red-50">
+              <tr class="text-danger">
                 <td>Error: <%=instances.error %></td>
               </tr>
               <% } else{ %>
 
-              <tr class="bg-blue-50">
+              <tr>
                 <td>No Instances</td>
               </tr>
               <% } %>
@@ -170,25 +176,40 @@
       const message = document.getElementById("error-message-instance");
       const changeState = async (id, state) => {
         if (
-          state.toUpperCase() === "PENDING" ||
-          state.toUpperCase() === "TERMINATED"
+          !(
+            state.toUpperCase() === "RUNNING" ||
+            state.toUpperCase() === "STOPPED"
+          )
         )
           return;
         const element = document.getElementById(id);
         let newState;
         element.innerHTML =
-          '<i class="fas text-yellow-500 fa-clock"></i>Pending';
+          state === "stopped"
+            ? '<i class="fas text-warning fa-clock"></i>Pending'
+            : '<i class="fas text-warning  fa-clock"></i>Stopping';
         newState = state === "stopped" ? "start" : "stop";
         try {
-          console.log("in try");
           const response = await axios.post("/startStopInstance", {
             state: newState,
             id,
           });
-          console.log(response);
         } catch (e) {
-          console.log(e);
-          message.innerHTML = "Some error occured!";
+          console.log("in index.ejs catch!! ", e.response);
+          message.innerHTML = e.response.data.errorMessage || "";
+        }
+      };
+
+      const terminateInstance = async (id) => {
+        const element = document.getElementById(id);
+        try {
+          const response = await axios.post("/terminateInstance", {
+            id,
+          });
+          console.log("in terminateinstance try");
+        } catch (e) {
+          console.log("in index.ejs catch!! ", e.response);
+          message.innerHTML = e.response.data.errorMessage || "";
         }
       };
     </script>
