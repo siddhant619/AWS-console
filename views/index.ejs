@@ -37,7 +37,7 @@
     <link rel="stylesheet" href="styles/sidebar.css" />
   </head>
   <body>
-    <%- include('./partials/sidebar.ejs') %>
+    <%- include('./partials/sidebar.ejs', {active:'home'}) %>
     <div class="container" style="margin: 25px auto; padding-left: 60px">
       <section class="">
         <div class="">
@@ -173,6 +173,14 @@
       crossorigin="anonymous"
     ></script>
     <script type="text/javascript">
+      const url = window.location.href;
+
+      const lastSegment = url.split("/").pop();
+      if (lastSegment === "")
+        document
+          .getElementById("dashboard-link")
+          .classList.add("nav-link-active");
+
       const message = document.getElementById("error-message-instance");
       const changeState = async (id, state) => {
         if (

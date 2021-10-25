@@ -37,7 +37,7 @@
     <link rel="stylesheet" href="styles/sidebar.css" />
   </head>
   <body>
-    <%- include('./partials/sidebar.ejs') %>
+    <%- include('./partials/sidebar.ejs', {active: 'contact'}); %>
     <div class="container w-50" style="margin: 25px auto; padding-left: 60px">
       <h1 class="text-center">Send query</h1>
       <form id="contactForm" style="margin-top: 20px">
@@ -99,6 +99,13 @@
       crossorigin="anonymous"
     ></script>
     <script type="text/javascript">
+      const url = window.location.href;
+
+      const lastSegment = url.split("/").pop();
+      if (lastSegment === "contact")
+        document
+          .getElementById("contact-link")
+          .classList.add("nav-link-active");
       const form = document.querySelector("#contactForm");
       const message = document.getElementById("message");
 
