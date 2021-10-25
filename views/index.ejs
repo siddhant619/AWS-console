@@ -135,7 +135,7 @@
                 <td><%= String(item.launchTime).substring(0,24) %></td>
                 <td>
                   <i
-                    onClick="terminateInstance('<%=item.id %>')"
+                    onClick="terminateInstance('<%=item.id %>','<%=item.state %>')"
                     class="fas fa-trash-alt"
                   ></i>
                 </td>
@@ -186,8 +186,8 @@
         let newState;
         element.innerHTML =
           state === "stopped"
-            ? '<i class="fas text-warning fa-clock"></i>Pending'
-            : '<i class="fas text-warning  fa-clock"></i>Stopping';
+            ? '<i class="fas text-warning fa-clock"></i> Pending'
+            : '<i class="fas text-warning  fa-clock"></i> Stopping';
         newState = state === "stopped" ? "start" : "stop";
         try {
           const response = await axios.post("/startStopInstance", {
@@ -200,8 +200,16 @@
         }
       };
 
-      const terminateInstance = async (id) => {
+      const terminateInstance = async (id, state) => {
+        if (
+          state.toLowerCase() === "shutting down" ||
+          state.toLowerCase() === "terminated"
+        )
+          return;
+
         const element = document.getElementById(id);
+        element.innerHTML =
+          '<i class="fas text-warning  fa-clock"></i> Shutting down';
         try {
           const response = await axios.post("/terminateInstance", {
             id,
