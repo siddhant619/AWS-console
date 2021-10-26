@@ -13,7 +13,7 @@ i {
 }
 body {
   color: black;
-  background-color: white;
+  background-color: #f1f3f6;
   margin: 0;
   padding: 0;
 }
@@ -23,18 +23,23 @@ body::-webkit-scrollbar {
 }
 
 body::-webkit-scrollbar-track {
-  background: #1e1e24;
+  background: #f1f1f1;
 }
 
 body::-webkit-scrollbar-thumb {
-  background: #6649b8;
+  background: #c1c1c1;
 }
 
 main {
   margin-left: 5rem;
   padding: 1rem;
 }
-
+.form-container {
+  background-color: white;
+  padding: 20px;
+  margin-top: 20px;
+  border-radius: 10px;
+}
 .mnavbar::-webkit-scrollbar-track {
   background: #1e1e24;
 }

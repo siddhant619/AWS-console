@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link
+      href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"
+      integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm"
+      crossorigin="anonymous"
+    />
+    <!-- <link rel="stylesheet" href="styles/style.css" /> -->
+
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"
+      integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm"
+      crossorigin="anonymous"
+    />
+    <!-- bootstrap -->
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css"
+    />
+    <link rel="stylesheet" href="styles/sidebar.css" />
+    <link rel="stylesheet" href="styles/docs.css" />
+  </head>
+  <body>
+    <%- include('./partials/sidebar.ejs', {active: 'docs'}); %>
+    <div class="sidenav">
+      <a href="#introduction">Introduction</a>
+      <a href="#aws">AWS Services</a>
+      <a href="#sdk">Python SDK(Boto3)</a>
+      <a href="#node">Node.js and express</a>
+    </div>
+    <div class="main">
+      <section id="introduction">
+        <h1 class="display-4">Introduction</h1>
+        <p>
+          Lorem ipsum dolor sit amet consectetur, adipisicing elit. Pariatur
+          nemo obcaecati tempora recusandae rem quasi iure cupiditate animi,
+          earum eius explicabo nam eligendi quos consectetur ab voluptas
+          deserunt blanditiis ullam. Lorem ipsum dolor sit amet consectetur,
+          adipisicing elit. Pariatur nemo obcaecati tempora recusandae rem quasi
+          iure cupiditate animi, earum eius explicabo nam eligendi quos
+          consectetur ab voluptas deserunt blanditiis ullam. Lorem ipsum dolor
+          sit amet consectetur, adipisicing elit. Pariatur nemo obcaecati
+          tempora recusandae rem quasi iure cupiditate animi, earum eius
+          explicabo nam eligendi quos consectetur ab voluptas deserunt
+          blanditiis ullam.
+        </p>
+      </section>
+      <section id="aws">
+        <h1 class="display-4">AWS Services</h1>
+        <p class="lead">
+          A brief introduction of the AWS services used for this project.
+        </p>
+        <div>
+          <h2>Virtual Private Cloud (VPC)</h2>
+          <p>
+            Lorem, ipsum dolor sit amet consectetur adipisicing elit.
+            Consectetur fugit quam vitae autem dolore porro, blanditiis dolorem
+            reiciendis ad, facilis quibusdam repellat alias perspiciatis. Nemo
+            quas dolore vero quasi vitae! Lorem ipsum dolor sit amet
+            consectetur, adipisicing elit. Pariatur nemo obcaecati tempora
+            recusandae rem quasi iure cupiditate animi, earum eius explicabo nam
+            eligendi quos consectetur ab voluptas deserunt blanditiis ullam.
+          </p>
+        </div>
+        <div>
+          <h2>Amazon Elastic Compute Cloud (EC2)</h2>
+          <p>
+            Lorem, ipsum dolor sit amet consectetur adipisicing elit.
+            Consectetur fugit quam vitae autem dolore porro, blanditiis dolorem
+            reiciendis ad, facilis quibusdam repellat alias perspiciatis. Nemo
+            quas dolore vero quasi vitae! Lorem ipsum dolor sit amet
+            consectetur, adipisicing elit. Pariatur nemo obcaecati tempora
+            recusandae rem quasi iure cupiditate animi, earum eius explicabo nam
+            eligendi quos consectetur ab voluptas deserunt blanditiis ullam.
+          </p>
+        </div>
+        <div>
+          <h2>AWS Lambda</h2>
+          <p>
+            Lorem, ipsum dolor sit amet consectetur adipisicing elit.
+            Consectetur fugit quam vitae autem dolore porro, blanditiis dolorem
+            reiciendis ad, facilis quibusdam repellat alias perspiciatis. Nemo
+            quas dolore vero quasi vitae! Lorem ipsum dolor sit amet
+            consectetur, adipisicing elit. Pariatur nemo obcaecati tempora
+            recusandae rem quasi iure cupiditate animi, earum eius explicabo nam
+            eligendi quos consectetur ab voluptas deserunt blanditiis ullam.
+          </p>
+        </div>
+        <div>
+          <h2>API Gateway</h2>
+          <p>
+            Lorem, ipsum dolor sit amet consectetur adipisicing elit.
+            Consectetur fugit quam vitae autem dolore porro, blanditiis dolorem
+            reiciendis ad, facilis quibusdam repellat alias perspiciatis. Nemo
+            quas dolore vero quasi vitae!
+          </p>
+        </div>
+      </section>
+      <section id="sdk">
+        <h1 class="display-4">Python SDK for AWS(Boto3)</h1>
+        <p>
+          Lorem, ipsum dolor sit amet consectetur adipisicing elit. Consectetur
+          fugit quam vitae autem dolore porro, blanditiis dolorem reiciendis ad,
+          facilis quibusdam repellat alias perspiciatis. Nemo quas dolore vero
+          quasi vitae! Lorem ipsum dolor sit amet consectetur, adipisicing elit.
+          Pariatur nemo obcaecati tempora recusandae rem quasi iure cupiditate
+          animi, earum eius explicabo nam eligendi quos consectetur ab voluptas
+          deserunt blanditiis ullam.
+        </p>
+      </section>
+
+      <section id="node">
+        <h1 class="display-4">Node.js and Express.js</h1>
+        <p>
+          Lorem, ipsum dolor sit amet consectetur adipisicing elit. Consectetur
+          fugit quam vitae autem dolore porro, blanditiis dolorem reiciendis ad,
+          facilis quibusdam repellat alias perspiciatis. Nemo quas dolore vero
+          quasi vitae! Lorem ipsum dolor sit amet consectetur, adipisicing elit.
+          Pariatur nemo obcaecati tempora recusandae rem quasi iure cupiditate
+          animi, earum eius explicabo nam eligendi quos consectetur ab voluptas
+          deserunt blanditiis ullam. Lorem ipsum dolor sit amet consectetur,
+          adipisicing elit. Pariatur nemo obcaecati tempora recusandae rem quasi
+          iure cupiditate animi, earum eius explicabo nam eligendi quos
+          consectetur ab voluptas deserunt blanditiis ullam.
+        </p>
+      </section>
+    </div>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <!-- Bootstrap CDN -->
+    <script
+      src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+      integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+      integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+      integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+      crossorigin="anonymous"
+    ></script>
+    <script type="text/javascript">
+      const url = window.location.href;
+
+      const lastSegment = url.split("/").pop();
+      if (lastSegment === "docs")
+        document.getElementById("docs-link").classList.add("nav-link-active");
+    </script>
+  </body>
+</html>

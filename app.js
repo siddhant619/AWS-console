@@ -6,6 +6,7 @@ const createInstance = require("./routes/createInstance");
 const createEnvironment = require("./routes/createEnvironment");
 const contact = require("./routes/contact");
 const terminateInstance = require("./routes/terminateInstance");
+const docs = require("./routes/docs");
 const app = express();
 app.set("view engine", "ejs");
 app.use(express.static(__dirname + "/views"));
@@ -25,6 +26,7 @@ app.use("/createInstance", createInstance);
 app.use("/createEnvironment", createEnvironment);
 app.use("/contact", contact);
 app.use("/terminateInstance", terminateInstance);
+app.use("/docs", docs);
 app.listen(3000, () => {
   console.log("listening on port 3000...");
 });

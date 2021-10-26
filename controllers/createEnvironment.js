@@ -9,8 +9,13 @@ const createNewEnvironment = async (req, res) => {
   const { stackName, vpcName, vpcCIDR, publicSubnetCIDR, privateSubnetCIDR } =
     req.body;
   const body = {};
-  if (!cirdValidation(vpcCIDR, publicSubnetCIDR, privateSubnetCIDR))
+  if (!cirdValidation(vpcCIDR, publicSubnetCIDR, privateSubnetCIDR)) {
+    console.log("invalid");
     return res.json({ errorMessage: "Incorrect CIDR IPs" });
+  } else {
+    console.log("valid!!");
+    return res.json({ errorMessage: "Valid inputs" });
+  }
   try {
     const response = await axios.post(
       "https://26rwihrqol.execute-api.us-east-1.amazonaws.com/dev/createenvironment",

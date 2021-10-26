@@ -1,6 +1,5 @@
 const axios = require("axios");
 const getContactForm = (req, res) => {
-  console.log(req.body);
   res.render("contact.ejs");
 };
 const sendContactForm = async (req, res) => {
