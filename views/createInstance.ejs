@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>Create Instance</title>
     <link
       href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700&display=swap"
       rel="stylesheet"
@@ -129,7 +129,7 @@
         const button = document.querySelector("#instance-button");
         button.classList.add("disabled");
         button.innerHTML =
-          '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>Creating...';
+          '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Creating...';
         const instanceName = document.querySelector("#instanceName").value;
         const keyName = document.querySelector("#keyName").value;
         const subnet = document.querySelector("#subnet").value;
@@ -155,12 +155,14 @@
             message.innerHTML = `<p class="text-danger">
               response.errorMessage + " " + response.errorType</p>`;
           } else {
-            message.innerHTML = `<p class="text-success">Instance created with ID- ${response.data.instanceId}</p>`;
+            message.innerHTML = `<p class="text-success">Launching instance with ID- ${response.data.instanceId}</p>`;
             instanceName.value = "";
           }
         } catch (e) {
           console.log("Some error!", e);
-          message.innerHTML = `<p class="text-danger">Some error occured!</p>`;
+          message.innerHTML = `<p class="text-danger">Error ${
+            e.response.data.errorMessage || ""
+          }</p>`;
         }
         button.classList.remove("disabled");
         button.innerHTML = "Create Instance";

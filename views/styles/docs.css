@@ -28,6 +28,10 @@
 html {
   scroll-behavior: smooth;
 }
+.section-header {
+  font-size: 3rem;
+  color: rgb(66, 66, 66);
+}
 /* Style page content */
 .main {
   margin-right: 300px; /* Same as the width of the sidebar */

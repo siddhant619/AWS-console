@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>Create Environment</title>
     <link
       href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700&display=swap"
       rel="stylesheet"
@@ -90,12 +90,12 @@
               class="form-control"
               id="privateSubnetCIDR"
               placeholder="10.0.0.0/24"
-              value="10.0.0.0/24"
+              value="10.0.1.0/24"
               required
             />
           </div>
         </div>
-        <button type="submit" class="btn btn-primary">
+        <button type="submit" class="btn btn-primary" id="env-button">
           Create Environment
         </button>
         <div id="error-message"></div>
@@ -133,6 +133,10 @@
 
       form.addEventListener("submit", async (e) => {
         e.preventDefault();
+        const button = document.querySelector("#env-button");
+        button.classList.add("disabled");
+        button.innerHTML =
+          '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Creating...';
         const stackName = document.querySelector("#stackName").value;
         const vpcName = document.querySelector("#vpcName").value;
         const vpcCIDR = document.querySelector("#vpcCIDR").value;
@@ -149,18 +153,21 @@
             privateSubnetCIDR,
           });
           console.log("response is! ", response);
-          if (response.data.statusCode != 200) {
-            console.log("Error: ", response.data.body);
+          if (response.data.errorMessage) {
+            console.log("in error", response.data.errorMessage);
             message.innerHTML = `<p class="text-danger">
-              ${response.data.body}  </p>`;
+              response.errorMessage + " " + response.errorType</p>`;
           } else {
-            message.innerHTML = `<p class="text-success">Creating environment...</p>`;
-            //instanceName.value = "";
+            message.innerHTML = `<p class="text-success">Creating stack with ID- ${response.data.stackId}</p>`;
           }
         } catch (e) {
           console.log("Some error!", e);
-          message.innerHTML = `<p class="text-danger">Some error occured!</p>`;
+          message.innerHTML = `<p class="text-danger">Error ${
+            e.response.data.errorMessage || ""
+          }</p>`;
         }
+        button.classList.remove("disabled");
+        button.innerHTML = "Create Environment";
       });
     </script>
   </body>
