@@ -27,6 +27,9 @@ app.use("/createEnvironment", createEnvironment);
 app.use("/contact", contact);
 app.use("/terminateInstance", terminateInstance);
 app.use("/docs", docs);
+app.get("/login", (req, res) => {
+  res.render("login.ejs");
+});
 app.listen(3000, () => {
   console.log("listening on port 3000...");
 });

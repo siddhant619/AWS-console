@@ -18,6 +18,7 @@
     "cidr-overlap": "0.0.4",
     "ejs": "^3.1.6",
     "express": "^4.17.1",
+    "express-generator": "^4.16.1",
     "ip-cidr": "^3.0.4",
     "is-cidr": "^4.0.2"
   },

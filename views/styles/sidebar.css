@@ -37,7 +37,7 @@ main {
 .form-container {
   background-color: white;
   padding: 20px;
-  margin-top: 20px;
+  margin-top: 60px;
   border-radius: 10px;
 }
 .mnavbar::-webkit-scrollbar-track {
