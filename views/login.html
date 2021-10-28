@@ -25,7 +25,12 @@
         <!-- Icon -->
 
         <!-- Login Form -->
-        <form style="padding: 20px">
+        <form
+          id="loginForm"
+          action="/authenticate"
+          method="post"
+          style="padding: 20px"
+        >
           <div class="fadeIn first">
             <h1>Login</h1>
           </div>
@@ -40,7 +45,7 @@
             type="password"
             id="password"
             class="fadeIn third"
-            name="login"
+            name="password"
             placeholder="password"
           />
           <input
@@ -50,7 +55,7 @@
             style="margin-top: 10px"
           />
         </form>
-
+        <div id="message"></div>
         <!-- Remind Passowrd -->
         <!-- <div id="formFooter">
           <a class="underlineHover" href="#">Forgot Password?</a>
@@ -73,5 +78,30 @@
       integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
       crossorigin="anonymous"
     ></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script type="text/javascript">
+      /* const form = document.querySelector("#loginForm");
+      const message = document.getElementById("message");
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const username = document.querySelector("#username").value;
+        const password = document.querySelector("#password").value;
+        try {
+          console.log("in try");
+          const response = await axios.post("/login", {
+            username,
+            password,
+          });
+          console.log("response is! ", response);
+          window.location.href = "http://localhost:3000/";
+          //message.innerHTML = `<p class="text-success">Que!</p>`;
+        } catch (e) {
+          console.log("Some error!", e);
+          message.innerHTML = `<p class="text-danger">${
+            e.response.data.errorMessage || ""
+          }</p>`;
+        }
+      }); */
+    </script>
   </body>
 </html>
