@@ -75,7 +75,11 @@
             </textarea>
           </div>
         </div>
-        <button type="submit" class="btn btn-primary btn-block">
+        <button
+          type="submit"
+          id="contact-button"
+          class="btn btn-primary btn-block"
+        >
           Send query
         </button>
         <div id="message"></div>
@@ -111,6 +115,10 @@
 
       form.addEventListener("submit", async (e) => {
         e.preventDefault();
+        const button = document.querySelector("#contact-button");
+        button.classList.add("disabled");
+        button.innerHTML =
+          '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Sending...';
         const email = document.querySelector("#email").value;
         const phone = document.querySelector("#phone").value;
         const query = document.querySelector("#query").value;
@@ -129,6 +137,8 @@
             e.response.data.errorMessage || ""
           }</p>`;
         }
+        button.classList.remove("disabled");
+        button.innerHTML = "Send query";
       });
     </script>
   </body>

@@ -4,7 +4,11 @@ const getContactForm = (req, res) => {
 };
 const sendContactForm = async (req, res) => {
   //console.log(req.body);
-  const body = { query: req.body.query.trim() };
+  const body = {
+    query: req.body.query.trim(),
+    email: req.body.email,
+    phone: req.body.phone,
+  };
   try {
     const { data } = await axios.post(
       "https://26rwihrqol.execute-api.us-east-1.amazonaws.com/dev/contact",
