@@ -15,14 +15,6 @@ const createNewEnvironment = async (req, res) => {
   );
   if (!validationObj.isValid)
     return res.status(400).json({ errorMessage: validationObj.message });
-  return res.status(200).json({ errorMessage: validationObj.message });
-  /* if (!cirdValidation(vpcCIDR, publicSubnetCIDR, privateSubnetCIDR)) {
-    console.log("invalid");
-    return res.json({ errorMessage: "Incorrect CIDR IPs" });
-  } else {
-    console.log("valid!!");
-    return res.json({ errorMessage: "Valid inputs" });
-  } */
   try {
     const { data } = await axios.post(
       "https://26rwihrqol.execute-api.us-east-1.amazonaws.com/dev/createenvironment",

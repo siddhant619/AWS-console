@@ -8,7 +8,7 @@ const axios = require("axios");
 const getVPCs = async () => {
   const params = {};
   try {
-    //const response = await ec2Client.send(new DescribeVpcsCommand(params));
+    const response = await ec2Client.send(new DescribeVpcsCommand(params));
     const defaultResponse = {
       Vpcs: [
         {
@@ -80,7 +80,7 @@ const getVPCs = async () => {
       ],
     };
 
-    const data = defaultResponse.Vpcs.map((vpc) => {
+    const data = response.Vpcs.map((vpc) => {
       const vpcName = vpc.Tags?.[0].Value || "-";
       return { name: vpcName, id: vpc.VpcId, cidr: vpc.CidrBlock };
     });
