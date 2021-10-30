@@ -60,7 +60,6 @@
                 <th scope="col">VPC CIDR</th>
                 <th scope="col">Public subnet CIDR</th>
                 <th scope="col">Private subnet CIDR</th>
-                <th scope="col">Delete Env</th>
               </tr>
             </thead>
             <tbody>
@@ -73,7 +72,6 @@
                 <td><%= item.cidr %></td>
                 <td>10.0.0.0/16</td>
                 <td>10.0.0.1/16</td>
-                <td><i class="fas fa-trash-alt"></i></td>
               </tr>
               <% }) %> <% } else if(vpc.error) { %>
               <tr>

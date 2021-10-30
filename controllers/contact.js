@@ -1,14 +1,22 @@
 const axios = require("axios");
+const { isPhoneValid } = require("../validation/contact.js");
+
 const getContactForm = (req, res) => {
   res.render("contact.ejs");
 };
+
 const sendContactForm = async (req, res) => {
-  //console.log(req.body);
   const body = {
     query: req.body.query.trim(),
     email: req.body.email,
     phone: req.body.phone,
   };
+  if (!isPhoneValid(req.body.phone))
+    return res
+      .status(400)
+      .json({ errorMessage: "Please enter 10 digit phone no." });
+  if (req.body.query.trim() === "")
+    return res.status(400).json({ errorMessage: "Please enter your query" });
   try {
     const { data } = await axios.post(
       "https://26rwihrqol.execute-api.us-east-1.amazonaws.com/dev/contact",

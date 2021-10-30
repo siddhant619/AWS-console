@@ -152,7 +152,7 @@
             publicSubnetCIDR,
             privateSubnetCIDR,
           });
-          console.log("response is! ", response);
+          //console.log("response is! ", response);
           if (response.data.errorMessage) {
             console.log("in error", response.data.errorMessage);
             message.innerHTML = `<p class="text-danger">
@@ -162,7 +162,7 @@
           }
         } catch (e) {
           console.log("Some error!", e);
-          message.innerHTML = `<p class="text-danger">Error ${
+          message.innerHTML = `<p class="text-danger">Error: ${
             e.response.data.errorMessage || ""
           }</p>`;
         }

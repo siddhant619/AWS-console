@@ -45,34 +45,31 @@ const check = (req, res, next) => {
     res.redirect("/login");
   }
 };
-
-app.use("/", describeVPCandInstances);
-app.use("/startStopInstance", startStopInstance);
-app.use("/createInstance", createInstance);
-app.use("/createEnvironment", createEnvironment);
-app.use("/contact", check, contact);
-app.use("/terminateInstance", terminateInstance);
-app.use("/docs", docs);
-
 app.post(
   "/authenticate",
 
   (req, res, next) => {
-    console.log(req.body);
     // Actual implementation would check values in a database
     if (req.body.username == "foo" && req.body.password == "bar") {
       res.locals.username = req.body.username;
-      console.log("valid!");
       next();
     } else res.sendStatus(401);
   },
   (req, res) => {
     req.session.loggedIn = true;
     req.session.username = res.locals.username;
-    console.log(req.session);
+    //console.log(req.session);
     res.redirect("/");
   }
 );
+app.use("/", check, describeVPCandInstances);
+app.use("/startStopInstance", startStopInstance);
+app.use("/createInstance", check, createInstance);
+app.use("/createEnvironment", check, createEnvironment);
+app.use("/contact", check, contact);
+app.use("/terminateInstance", terminateInstance);
+app.use("/docs", check, docs);
+
 app.get("/logout", (req, res) => {
   req.session.destroy((err) => {});
   res.redirect("/login");

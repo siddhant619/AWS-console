@@ -22,13 +22,16 @@ const isWithin = (vpc, subnet) => {
     return false;
   }
 };
-const cirdValidation = (vpc, publicSubnet, privateSubnet) => {
-  if (
-    ipValidation(vpc, publicSubnet, privateSubnet) &&
-    isWithin(vpc, publicSubnet) &&
-    isWithin(vpc, privateSubnet)
-  ) {
-    return true;
-  } else return false;
+const cidrValidation = (vpc, publicSubnet, privateSubnet) => {
+  if (!IPCIDR.isValidAddress(vpc)) {
+    return { isValid: false, message: "VPC CIDR invalid!" };
+  }
+  if (!IPCIDR.isValidAddress(publicSubnet)) {
+    return { isValid: false, message: "Public subnet CIDR invalid!" };
+  }
+  if (!IPCIDR.isValidAddress(privateSubnet)) {
+    return { isValid: false, message: "Private subnet CIDR invalid!" };
+  }
+  return { isValid: true };
 };
-module.exports = { cirdValidation };
+module.exports = { cidrValidation };

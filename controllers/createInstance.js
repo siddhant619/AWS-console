@@ -58,10 +58,17 @@ const getCreateInstanceForm = async (req, res) => {
   const securityGroups = await getSecurityGroups();
   res.render("createInstance.ejs", { keyNames, subnets, securityGroups });
 };
-
+const isValid = (instanceName, keyName, subnet, selectedSecurityGroups) => {
+  if (!instanceName) return false;
+  return true;
+};
 const createNewInstance = async (req, res) => {
   try {
     const { instanceName, keyName, subnet, selectedSecurityGroups } = req.body;
+    if (!isValid(instanceName, keyName, subnet, selectedSecurityGroups))
+      return res
+        .status(400)
+        .json({ errorMessage: "Please specify instance name!" });
     const response = await axios.post(
       "https://26rwihrqol.execute-api.us-east-1.amazonaws.com/dev/create-instance",
       {

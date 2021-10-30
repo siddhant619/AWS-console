@@ -1,4 +1,4 @@
-const { cirdValidation } = require("../validation/cidr.js");
+const { cidrValidation } = require("../validation/cidr.js");
 const axios = require("axios");
 
 const getCreateEnvironmentForm = (req, res) => {
@@ -8,7 +8,14 @@ const getCreateEnvironmentForm = (req, res) => {
 const createNewEnvironment = async (req, res) => {
   const { stackName, vpcName, vpcCIDR, publicSubnetCIDR, privateSubnetCIDR } =
     req.body;
-  const body = {};
+  const validationObj = cidrValidation(
+    vpcCIDR,
+    publicSubnetCIDR,
+    privateSubnetCIDR
+  );
+  if (!validationObj.isValid)
+    return res.status(400).json({ errorMessage: validationObj.message });
+  return res.status(200).json({ errorMessage: validationObj.message });
   /* if (!cirdValidation(vpcCIDR, publicSubnetCIDR, privateSubnetCIDR)) {
     console.log("invalid");
     return res.json({ errorMessage: "Incorrect CIDR IPs" });
@@ -21,7 +28,7 @@ const createNewEnvironment = async (req, res) => {
       "https://26rwihrqol.execute-api.us-east-1.amazonaws.com/dev/createenvironment",
       { stackName, vpcName, vpcCIDR, publicSubnetCIDR, privateSubnetCIDR }
     );
-    console.log(data);
+
     if (data.success === "true")
       return res.status(200).json({ data: data.data });
     else return res.status(400).json({ errorMessage: data.message });

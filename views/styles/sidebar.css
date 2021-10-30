@@ -44,7 +44,7 @@ main {
   background: #1e1e24;
 }
 .mnavbar::-webkit-scrollbar-thumb {
-  background: #6649b8;
+  background: #1e1e24;
 }
 .mnavbar::-webkit-scrollbar {
   width: 0.1rem;
@@ -113,11 +113,11 @@ main {
 }
 
 .fa-primary {
-  color: #ff7eee;
+  color: #dad6d8;
 }
 
 .fa-secondary {
-  color: #df49a6;
+  color: #dad6d8;
 }
 
 .fa-primary,

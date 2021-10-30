@@ -123,17 +123,15 @@
         const phone = document.querySelector("#phone").value;
         const query = document.querySelector("#query").value;
         try {
-          console.log("in try");
           const response = await axios.post("/contact", {
             email,
             phone,
             query,
           });
-          console.log("response is! ", response);
           message.innerHTML = `<p class="text-success">Query sent!</p>`;
         } catch (e) {
           console.log("Some error!", e);
-          message.innerHTML = `<p class="text-danger">${
+          message.innerHTML = `<p class="text-danger">Error: ${
             e.response.data.errorMessage || ""
           }</p>`;
         }
