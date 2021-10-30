@@ -1,6 +1,7 @@
 const {
   DescribeVpcsCommand,
   DescribeInstancesCommand,
+  DescribeSubnetsCommand,
 } = require("@aws-sdk/client-ec2");
 const { ec2Client } = require("../libs/ec2Client");
 const axios = require("axios");
@@ -9,6 +10,7 @@ const getVPCs = async () => {
   const params = {};
   try {
     const response = await ec2Client.send(new DescribeVpcsCommand(params));
+    const subnets = await ec2Client.send(new DescribeSubnetsCommand({}));
     const defaultResponse = {
       Vpcs: [
         {
@@ -72,6 +74,11 @@ const getVPCs = async () => {
           IsDefault: false,
           Tags: [
             {
+              Key: "aws:cloudformation:stack-id	",
+              Value:
+                "arn:aws:cloudformation:us-east-1:292242767239:stack/setupEnv1/9eeb3540-397e-11ec-812a-0a73ca923921",
+            },
+            {
               Key: "Name",
               Value: "demovpc",
             },
@@ -79,10 +86,26 @@ const getVPCs = async () => {
         },
       ],
     };
-
+    let count = {};
+    subnets.Subnets.forEach((subnet) => {
+      console.log(subnet.VpcId);
+      count[subnet.VpcId] = count[subnet.VpcId] ? count[subnet.VpcId] + 1 : 1;
+    });
+    console.log(count);
     const data = response.Vpcs.map((vpc) => {
-      const vpcName = vpc.Tags?.[0].Value || "-";
-      return { name: vpcName, id: vpc.VpcId, cidr: vpc.CidrBlock };
+      let vpcName = "-";
+      const tags = vpc.Tags;
+      tags?.forEach((tag) => {
+        if (tag.Key === "Name") vpcName = tag.Value;
+      });
+
+      return {
+        name: vpcName,
+        id: vpc.VpcId,
+        cidr: vpc.CidrBlock,
+        subnets: count[vpc.VpcId] || 0,
+        isDefault: vpc.IsDefault,
+      };
     });
     return { data };
   } catch (err) {

@@ -57,9 +57,10 @@
                 <th scope="col">#</th>
                 <th scope="col">VPC Name</th>
                 <th scope="col">VPC ID</th>
-                <th scope="col">VPC CIDR</th>
-                <th scope="col">Public subnet CIDR</th>
-                <th scope="col">Private subnet CIDR</th>
+                <th scope="col">IPv4 CIDR</th>
+                <th scope="col">Number of subnets</th>
+                <th scope="col">Default VPC</th>
+                <!-- <th scope="col">Private subnet CIDR</th> -->
               </tr>
             </thead>
             <tbody>
@@ -70,8 +71,8 @@
                 <td><%= item.name %></td>
                 <td><%= item.id %></td>
                 <td><%= item.cidr %></td>
-                <td>10.0.0.0/16</td>
-                <td>10.0.0.1/16</td>
+                <td><%= item.subnets %></td>
+                <td><%= item.isDefault %></td>
               </tr>
               <% }) %> <% } else if(vpc.error) { %>
               <tr>
