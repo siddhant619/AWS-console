@@ -72,6 +72,34 @@
             </li>
           </ol>
           <h3>Running on EC2 instance</h3>
+            <ol>
+              <li>
+                Create an EC2 instance. Enable auto-assign public IP.
+              </li>
+              <li>
+                In security groups enable custom TCP incoming from anywhere for port 3000.
+              </li>
+              <li>Connect to your Linux instance as ec2-user using SSH.
+              </li>
+              <li>
+                <code>sudo yum -y install curl</code>
+                <code> -sL https://rpm.nodesource.com/setup_14.x | sudo bash -</code>
+              </li>
+              <li>
+                Clone github repo
+                <code>git clone "..."</code>
+              </li>
+              <li>
+                Install dependencies
+                <code>npm install</code>
+              </li>
+              <li>
+                Start the server
+                <code>npm start</code>
+                Now copy and paste the public Ipv4 DNS and add :3000 at the end
+              </li>
+
+            </ol>
         </p>
       </section>
       <section id="aws">
@@ -82,76 +110,96 @@
         <div>
           <h3>Virtual Private Cloud (VPC)</h3>
           <p>
-            Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-            Consectetur fugit quam vitae autem dolore porro, blanditiis dolorem
-            reiciendis ad, facilis quibusdam repellat alias perspiciatis. Nemo
-            quas dolore vero quasi vitae! Lorem ipsum dolor sit amet
-            consectetur, adipisicing elit. Pariatur nemo obcaecati tempora
-            recusandae rem quasi iure cupiditate animi, earum eius explicabo nam
-            eligendi quos consectetur ab voluptas deserunt blanditiis ullam.
+            Amazon Virtual Private Cloud (Amazon VPC) enables you to launch AWS resources into a virtual network that you've defined. This virtual network closely resembles a traditional network that you'd operate in your own data center, with the benefits of using the scalable infrastructure of AWS.
           </p>
         </div>
         <div>
           <h3>Amazon Elastic Compute Cloud (EC2)</h3>
           <p>
-            Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-            Consectetur fugit quam vitae autem dolore porro, blanditiis dolorem
-            reiciendis ad, facilis quibusdam repellat alias perspiciatis. Nemo
-            quas dolore vero quasi vitae! Lorem ipsum dolor sit amet
-            consectetur, adipisicing elit. Pariatur nemo obcaecati tempora
-            recusandae rem quasi iure cupiditate animi, earum eius explicabo nam
-            eligendi quos consectetur ab voluptas deserunt blanditiis ullam.
+            Amazon Elastic Compute Cloud (Amazon EC2) is a web service that provides secure, resizable compute capacity in the cloud. EC2 offers many options that enable you to build and run virtually any application.
           </p>
         </div>
         <div>
           <h3>AWS Lambda</h3>
           <p>
-            Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-            Consectetur fugit quam vitae autem dolore porro, blanditiis dolorem
-            reiciendis ad, facilis quibusdam repellat alias perspiciatis. Nemo
-            quas dolore vero quasi vitae! Lorem ipsum dolor sit amet
-            consectetur, adipisicing elit. Pariatur nemo obcaecati tempora
-            recusandae rem quasi iure cupiditate animi, earum eius explicabo nam
-            eligendi quos consectetur ab voluptas deserunt blanditiis ullam.
+            AWS Lambda is a serverless, event-driven compute service that lets you run code for virtually any type of application or backend service without provisioning or managing servers
           </p>
         </div>
         <div>
           <h3>API Gateway</h3>
           <p>
-            Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-            Consectetur fugit quam vitae autem dolore porro, blanditiis dolorem
-            reiciendis ad, facilis quibusdam repellat alias perspiciatis. Nemo
-            quas dolore vero quasi vitae!
+            Amazon API Gateway is a fully managed service that makes it easy for developers to create, publish, maintain, monitor, and secure APIs at any scale. APIs act as the "front door" for applications to access data, business logic, or functionality from your backend services.
           </p>
         </div>
       </section>
       <section id="sdk">
         <h1 class="section-header">Python SDK for AWS(Boto3)</h1>
-        <p>
-          Lorem, ipsum dolor sit amet consectetur adipisicing elit. Consectetur
-          fugit quam vitae autem dolore porro, blanditiis dolorem reiciendis ad,
-          facilis quibusdam repellat alias perspiciatis. Nemo quas dolore vero
-          quasi vitae! Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-          Pariatur nemo obcaecati tempora recusandae rem quasi iure cupiditate
-          animi, earum eius explicabo nam eligendi quos consectetur ab voluptas
-          deserunt blanditiis ullam.
-        </p>
+        <p class="lead">
+          A brief introduction of the boto3 APIs for this project.
+       
+      </p>
+      <ol>
+        <li>
+          <h4>run_instances()</h4>
+          Launches the specified number of instances using an AMI for which you have permissions.
+          <code>response= client.run_instances( <br>
+          ImageId='string',<br>
+          MinCount=123,<br>
+          MaxCount=123,<br>
+          InstanceType='string',<br>
+          KeyName='string',<br>
+          SubnetId='string',<br>
+          SecurityGroupIds=[<br>
+          'string',<br>
+      ],<br>
+          TagSpecifications=[{'ResourceType': 'instance',<br>
+                      'Tags': [{<br>
+                              'Key':'Name',<br>
+                              'Value': 'value'<br>
+                          }]}]<br>
+  
+          )
+          </code>
+        </li>
+        <li>
+          <h4>terminate_instances()</h4>
+          Shuts down the specified instances. This operation is idempotent; if you terminate an instance more than once, each call succeeds.
+          <code>
+            client.terminate_instances(InstanceIds=[event["instanceID"]])<br>
+            return {<br>
+                "success":"true",<br>
+                "message":"Instance successfully terminated",<br>
+                "data":json.dumps({<br>
+                    "instanceID": str(event["instanceID"])<br>
+                })<br>
+            }
+          </code>
+        </li>
+        <li>
+          <h4>start_instance() and stop_instances()</h4>
+          <code>
+          client.stop_instances(InstanceIds=[event["instanceID"]])
+          client.start_instances(InstanceIds=[event["instanceID"]])
+          </code>
+        </li>
+        <li>
+          <h4>publish()</h4>
+          Publish a message to SNS topic
+          <code>
+            client.publish ( <br>
+        TargetArn = "arn:aws:sns:us-east-1:292242767239:Mini-console",<br>
+        Message = json.dumps({'default': notification}),<br>
+        MessageStructure = 'json'<br>
+     )
+          </code>
+        </li>
+      </ol>
       </section>
 
       <section id="node">
         <h1 class="section-header">Node.js and Express.js</h1>
-        <p>
-          Lorem, ipsum dolor sit amet consectetur adipisicing elit. Consectetur
-          fugit quam vitae autem dolore porro, blanditiis dolorem reiciendis ad,
-          facilis quibusdam repellat alias perspiciatis. Nemo quas dolore vero
-          quasi vitae! Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-          Pariatur nemo obcaecati tempora recusandae rem quasi iure cupiditate
-          animi, earum eius explicabo nam eligendi quos consectetur ab voluptas
-          deserunt blanditiis ullam. Lorem ipsum dolor sit amet consectetur,
-          adipisicing elit. Pariatur nemo obcaecati tempora recusandae rem quasi
-          iure cupiditate animi, earum eius explicabo nam eligendi quos
-          consectetur ab voluptas deserunt blanditiis ullam.
-        </p>
+       
+          
       </section>
     </div>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
