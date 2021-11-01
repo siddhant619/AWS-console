@@ -73,7 +73,7 @@ app.use("/docs", check, docs);
 app.get("/logout", (req, res) => {
   req.session.destroy((err) => {});
   res.redirect("/login");
-  res.send("Thank you! Visit again");
+  //res.send("Thank you! Visit again");
 });
 app.listen(3000, () => {
   console.log("listening on port 3000...");
