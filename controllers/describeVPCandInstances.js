@@ -88,10 +88,8 @@ const getVPCs = async () => {
     };
     let count = {};
     subnets.Subnets.forEach((subnet) => {
-      console.log(subnet.VpcId);
       count[subnet.VpcId] = count[subnet.VpcId] ? count[subnet.VpcId] + 1 : 1;
     });
-    console.log(count);
     const data = response.Vpcs.map((vpc) => {
       let vpcName = "-";
       const tags = vpc.Tags;

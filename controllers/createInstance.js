@@ -58,18 +58,26 @@ const getCreateInstanceForm = async (req, res) => {
   const securityGroups = await getSecurityGroups();
   res.render("createInstance.ejs", { keyNames, subnets, securityGroups });
 };
-const isValid = (instanceName, keyName, subnet, selectedSecurityGroups) => {
+const isValid = (instanceName) => {
   if (!instanceName) return false;
+  return true;
+};
+const isSgsValid = (selectedSecurityGroups) => {
+  if (selectedSecurityGroups.length > 5) return false;
   return true;
 };
 const createNewInstance = async (req, res) => {
   try {
     const { instanceName, keyName, subnet, selectedSecurityGroups } = req.body;
-    if (!isValid(instanceName, keyName, subnet, selectedSecurityGroups))
+    if (!isValid(instanceName))
       return res
         .status(400)
         .json({ errorMessage: "Please specify instance name!" });
-    const response = await axios.post(
+    if (!isSgsValid(selectedSecurityGroups))
+      return res
+        .status(400)
+        .json({ errorMessage: "Upto 5 security groups allowed!" });
+    const { data } = await axios.post(
       "https://26rwihrqol.execute-api.us-east-1.amazonaws.com/dev/create-instance",
       {
         name: instanceName,
@@ -78,8 +86,9 @@ const createNewInstance = async (req, res) => {
         subnetId: subnet,
       }
     );
-    console.log(response);
-    res.status(200).json(response.data);
+    if (data.success === "true")
+      return res.status(200).json({ data: data.data });
+    else return res.status(400).json({ errorMessage: data.message });
   } catch (e) {
     console.log("error while creating instance ", e);
     res.status(400).send("error while creating instance");

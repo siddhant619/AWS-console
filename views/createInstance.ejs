@@ -151,10 +151,11 @@
           console.log("response is! ", response);
           if (response.data.errorMessage) {
             console.log("in error", response.data.errorMessage);
-            message.innerHTML = `<p class="text-danger">
-              response.errorMessage + " " + response.errorType</p>`;
+            message.innerHTML = `<p class="text-danger">Error: ${
+              e.response.data.errorMessage || ""
+            }</p>`;
           } else {
-            message.innerHTML = `<p class="text-success">Launching instance with ID- ${response.data.instanceId}</p>`;
+            message.innerHTML = `<p class="text-success">Launching instance with ID- ${response.data.data.instanceId}</p>`;
             instanceName.value = "";
           }
         } catch (e) {
