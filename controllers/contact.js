@@ -19,7 +19,7 @@ const sendContactForm = async (req, res) => {
     return res.status(400).json({ errorMessage: "Please enter your query" });
   try {
     const { data } = await axios.post(
-      "https://26rwihrqol.execute-api.us-east-1.amazonaws.com/dev/contact",
+      "https://2n9p2tsx33.execute-api.us-east-1.amazonaws.com/dev/contact",
       body
     );
     if (data.success === "true")

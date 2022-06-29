@@ -8,7 +8,7 @@ const startStopInstance = async (req, res) => {
   const body = { instanceID: req.body.id, action: req.body.state };
   try {
     const { data } = await axios.post(
-      "https://26rwihrqol.execute-api.us-east-1.amazonaws.com/dev/startstopinstance",
+      "https://2n9p2tsx33.execute-api.us-east-1.amazonaws.com/dev/startstopinstance",
       body
     );
     if (data.success === "true")

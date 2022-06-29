@@ -5,7 +5,7 @@ const terminateInstance = async (req, res) => {
   const body = { instanceID: req.body.id };
   try {
     const { data } = await axios.post(
-      "https://26rwihrqol.execute-api.us-east-1.amazonaws.com/dev/terminateinstance",
+      "https://2n9p2tsx33.execute-api.us-east-1.amazonaws.com/dev/terminateinstance",
       body
     );
     if (data.success === "true")

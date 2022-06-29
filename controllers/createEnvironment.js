@@ -17,7 +17,7 @@ const createNewEnvironment = async (req, res) => {
     return res.status(400).json({ errorMessage: validationObj.message });
   try {
     const { data } = await axios.post(
-      "https://26rwihrqol.execute-api.us-east-1.amazonaws.com/dev/createenvironment",
+      "https://2n9p2tsx33.execute-api.us-east-1.amazonaws.com/dev/createenvironment",
       { stackName, vpcName, vpcCIDR, publicSubnetCIDR, privateSubnetCIDR }
     );
 

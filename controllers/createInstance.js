@@ -78,7 +78,7 @@ const createNewInstance = async (req, res) => {
         .status(400)
         .json({ errorMessage: "Upto 5 security groups allowed!" });
     const { data } = await axios.post(
-      "https://26rwihrqol.execute-api.us-east-1.amazonaws.com/dev/create-instance",
+      "https://2n9p2tsx33.execute-api.us-east-1.amazonaws.com/dev/create-instance",
       {
         name: instanceName,
         keyName: keyName,
